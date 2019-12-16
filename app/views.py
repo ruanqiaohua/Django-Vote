@@ -1,24 +1,37 @@
 from django.shortcuts import render
 from .models import User
+from django.http import JsonResponse
 
 
+# app-response
+def app_response(code=-1, data={}, error=''):
+    response = {'code': code, 'data': data, 'error': error}
+    return response
+
+
+# 首页
 def index(request):
     return render(request, template_name='app/index.html')
 
 
+# 登录
 def login(request):
+
     if not request.POST:
-        return render(request, template_name='app/login.html')
+        return JsonResponse(app_response(error='请输入用户名'))
     phone = request.POST['phone']
     password = request.POST['password']
+    if not phone or not password:
+        return JsonResponse(app_response(error='请输入用户名或密码'))
     try:
         user = User.objects.get(phone=phone, password=password)
     except (KeyError, User.DoesNotExist):
-        return render(request, template_name='app/login.html', context={'error_message': '手机号未注册'})
+        return JsonResponse(app_response(error='手机号未注册'))
     else:
-        return render(request, template_name='app/userInfo.html', context={'user': user})
+        return JsonResponse(app_response(code=0, data=user.to_dict()))
 
 
+# 注册
 def register(request):
     if not request.POST:
         return render(request, template_name='app/register.html')

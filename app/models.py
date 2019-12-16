@@ -9,3 +9,8 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
+
+    def to_dict(self):
+        return {'name': self.name,
+                'phone': self.phone,
+                'email': self.email}
