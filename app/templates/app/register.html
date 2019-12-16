@@ -1,0 +1,26 @@
+
+{% if error_message %}
+<p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+{% if loginSuc %}
+    <p><strong>{{ loginSuc }}</strong></p>
+{% else %}
+    <form action="{% url 'app:register' %}" method="post">
+    {% csrf_token %}
+    <label>
+        <input name="phone" type="number" placeholder="请输入手机号">
+    </label>
+    <label>
+        <input name="password" type="password" placeholder="请输入密码">
+    </label>
+    <label>
+        <input name="password2" type="password" placeholder="请确认密码">
+    </label>
+    <input type="submit" value="注册">
+    </form>
+{% endif %}
+
+<form action="{% url 'app:login' %}">
+    <input type="submit" value="返回登录">
+</form>

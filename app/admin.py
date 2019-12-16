@@ -3,7 +3,7 @@ from .models import User
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['name', 'phone', 'email']
+    list_display = ['phone', 'password', 'name', 'email']
 
 
 admin.site.register(User, UserAdmin)
